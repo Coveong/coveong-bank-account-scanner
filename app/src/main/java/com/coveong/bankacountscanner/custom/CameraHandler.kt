@@ -101,7 +101,7 @@ class CameraHandler(
         texture.setDefaultBufferSize(previewSize.width, previewSize.height)
         val textureViewSurface = Surface(texture)
         try {
-            cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW).run {
+            captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW).apply {
                 addTarget(textureViewSurface)
                 set(
                     CaptureRequest.CONTROL_MODE,
