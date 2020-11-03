@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 def getProperty(String filename, String propName) {
     def propsFile = rootProject.file(filename)
@@ -21,6 +22,11 @@ def getProperty(String filename, String propName) {
 android {
     compileSdkVersion 30
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.coveong.bankacountscanner"
         minSdkVersion 21
@@ -31,6 +37,10 @@ android {
         buildConfigField "String", "GOOGLE_VISION_API_KEY", "\"${getProperty("secure.properties", "GOOGLE_VISION_API_KEY")}\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     buildTypes {
@@ -51,5 +61,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "com.google.android.material:material:1.2.1"
-
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    kapt "com.android.databinding:compiler:3.1.4"
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
 }
