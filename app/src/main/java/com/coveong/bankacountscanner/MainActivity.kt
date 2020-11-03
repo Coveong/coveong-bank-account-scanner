@@ -20,21 +20,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView()
+        setContentView(R.layout.activity_main)
         settingPermissionForTest()
         settingMainViewModel()
         callApiForTest()
         settingContentView()
 
-    }
-
-    private fun setContentView() {
-        setContentView(R.layout.activity_main)
-
         if (preview_imageView.background == null) {
             // TODO: startActivityForResult로 변경해서 사진을 받아와야 함
             startActivity(Intent(this, CameraActivity::class.java))
         }
+
     }
 
     private fun settingPermissionForTest() { // FIXME: 테스트 할 시에 삭제해야하는 메소드

@@ -19,14 +19,13 @@ import java.io.File
 
 class MainViewModel : ViewModel() {
 
-    private val BASE_URL = "https://vision.googleapis.com/"
-    private val TEST_IMAGE_LOCATION = "/sdcard/Pictures/test.jpg"
-
     private lateinit var retrofit: Retrofit
+
+    private val GET_TEXT_FROM_IMAGE = "TEXT_DETECTION"
 
     fun initializeRetrofit() {
         retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.GOOGLE_VISION_BASE_URL)
             .addConverterFactory(JacksonConverterFactory.create())
             .build()
     }
@@ -54,21 +53,29 @@ class MainViewModel : ViewModel() {
 
     private fun makeRequestInfoWithImage(image: String): List<Request> {
         val requests = Request(
-            ImageInfo(image), Feature("TEXT_DETECTION", 1)
+            image = ImageInfo(image), features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1)
         )
 
         return listOf(requests)
     }
 
+<<<<<<< HEAD
     // FIXME: 사진 전달받는 코드 생기면 삭제할 코드
+=======
+    // FIXME: 사진 전달받는 코드 생기만 삭제할 코드
+>>>>>>> eaafd4d... [#8] api request 메소드 추가
     private fun getTestImage(): String {
-        val file = File(TEST_IMAGE_LOCATION)
-        return fileToString(file)
+        val file = File(BuildConfig.TEST_IMAGE_LOCATION)
+        return serializeFile(file)
     }
 
-    fun fileToString(attachment: File): String {
+    fun serializeFile(attachment: File): String {
         return Base64.encodeToString(attachment.readBytes(), Base64.NO_WRAP)
     }
 
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> eaafd4d... [#8] api request 메소드 추가

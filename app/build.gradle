@@ -35,6 +35,8 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "GOOGLE_VISION_API_KEY", "\"${getProperty("secure.properties", "GOOGLE_VISION_API_KEY")}\""
+        buildConfigField "String", "GOOGLE_VISION_BASE_URL", '"https://vision.googleapis.com/"'
+        buildConfigField "String", "TEST_IMAGE_LOCATION", '"/sdcard/Pictures/test.jpg"' // FIXME: 로직 바뀌면 삭제해야하는 코드
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
