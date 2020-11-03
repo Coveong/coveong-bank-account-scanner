@@ -30,6 +30,8 @@ class CameraActivity : AppCompatActivity() {
             context = this,
             manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager,
             cameraPreview = camera_preview,
+            cameraPreviewCropped = camera_preview_cropped,
+            cameraTakePictureButton = camera_take_picture_button,
             requirePermission = requestPermission
         )
     }
