@@ -59,11 +59,7 @@ class MainViewModel : ViewModel() {
         return listOf(requests)
     }
 
-<<<<<<< HEAD
     // FIXME: 사진 전달받는 코드 생기면 삭제할 코드
-=======
-    // FIXME: 사진 전달받는 코드 생기만 삭제할 코드
->>>>>>> eaafd4d... [#8] api request 메소드 추가
     private fun getTestImage(): String {
         val file = File(BuildConfig.TEST_IMAGE_LOCATION)
         return serializeFile(file)
@@ -73,9 +69,5 @@ class MainViewModel : ViewModel() {
         return Base64.encodeToString(attachment.readBytes(), Base64.NO_WRAP)
     }
 
+}
 
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> eaafd4d... [#8] api request 메소드 추가
