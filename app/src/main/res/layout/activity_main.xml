@@ -43,7 +43,7 @@
                 android:id="@+id/wrong_bank_account_alert_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 android:text="@string/wrong_bank_account_alert_message"
                 android:textColor="@color/colorGrey"
                 android:textSize="14sp"
@@ -135,7 +135,7 @@
                     android:text="@string/retry_button_label"
                     android:textColor="@color/colorMain"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/noto_sans_cjk_kr_medium" />
 
                 <Button
                     android:id="@+id/copy_button"
@@ -147,7 +147,7 @@
                     android:text="@string/copy_button_label"
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/noto_sans_cjk_kr_medium" />
 
             </LinearLayout>
 
