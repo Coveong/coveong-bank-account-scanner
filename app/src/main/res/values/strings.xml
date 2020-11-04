@@ -10,4 +10,7 @@
     <string name="check_bank_title">계좌 번호 확인하기</string>
     <string name="rendered_bank_name_hint">코봉은행</string>
     <string name="rendered_bank_account_hint">000000000000</string>
+    <string name="kakaobank_logo_label">카카오뱅크</string>
+    <string name="toss_logo_label">토스</string>
+    <string name="share_logo_label">공유하기</string>
 </resources>

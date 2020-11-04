@@ -97,6 +97,81 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bank_name_label" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="57dp"
+                app:layout_constraintTop_toBottomOf="@id/bank_account_label"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/kakaobank_logo_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/toss_logo_imageView"
+                    app:srcCompat="@drawable/ic_logo_kakaobank" />
+
+                <TextView
+                    android:id="@+id/kakaobank_logo_label_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kakaobank_logo_label"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="12sp"
+                    android:layout_marginTop="7dp"
+                    app:layout_constraintEnd_toEndOf="@id/kakaobank_logo_imageView"
+                    app:layout_constraintStart_toStartOf="@id/kakaobank_logo_imageView"
+                    app:layout_constraintTop_toBottomOf="@id/kakaobank_logo_imageView" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/toss_logo_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    app:srcCompat="@drawable/ic_logo_toss"
+                    app:layout_constraintEnd_toStartOf="@id/share_logo_imageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/kakaobank_logo_imageView" />
+
+                <TextView
+                    android:id="@+id/toss_logo_label_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toss_logo_label"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="12sp"
+                    android:layout_marginTop="7dp"
+                    app:layout_constraintEnd_toEndOf="@id/toss_logo_imageView"
+                    app:layout_constraintStart_toStartOf="@id/toss_logo_imageView"
+                    app:layout_constraintTop_toBottomOf="@id/toss_logo_imageView" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/share_logo_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    app:srcCompat="@drawable/ic_logo_share"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/toss_logo_imageView" />
+
+                <TextView
+                    android:id="@+id/share__logo_label_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share_logo_label"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="12sp"
+                    android:layout_marginTop="7dp"
+                    app:layout_constraintEnd_toEndOf="@id/share_logo_imageView"
+                    app:layout_constraintStart_toStartOf="@id/share_logo_imageView"
+                    app:layout_constraintTop_toBottomOf="@id/share_logo_imageView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/rendered_bank_account_editText"
