@@ -3,72 +3,156 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable name="viewModel" type="com.coveong.bankacountscanner.ui.MainViewModel"/>
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
         tools:context=".MainActivity">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/preview_imageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="20dp" />
-        <TextView
-            android:id="@+id/wrong_bank_account_alert_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/wrong_bank_account_alert_message"
-            android:textColor="@color/colorRed"
-            android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/preview_imageView" />
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/rendered_bank_account_editText"
-            android:background="@drawable/background_default_edittext"
-            android:padding="10dp"
+            tools:background="@color/colorMain"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/wrong_bank_account_alert_textView"
-            tools:layout_editor_absoluteX="20dp"
-            tools:text="신한 000000000000 홍길동" />
-        <Button
-            android:id="@+id/copy_button"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:text="@string/copy_button_label"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/colorMain"
-            android:textColor="@color/colorWhite"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/rendered_bank_account_editText"
-            tools:layout_editor_absoluteX="20dp" />
-        <Button
-            android:id="@+id/retry_button"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:text="@string/retry_button_label"
-            android:backgroundTint="@color/colorMain"
-            android:textColor="@color/colorWhite"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/copy_button"
-            tools:layout_editor_absoluteX="20dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Made by Coveong ✨"
-            android:textColor="@color/colorGrey5"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/background_sheet"
+            android:layout_marginTop="168dp">
+
+            <TextView
+                android:id="@+id/title_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:text="@string/check_bank_title"
+                android:textColor="@color/colorBlack"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginStart="32dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/wrong_bank_account_alert_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/wrong_bank_account_alert_message"
+                android:textColor="@color/colorGrey"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="32dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_textView" />
+
+            <TextView
+                android:id="@+id/bank_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/bank_name_label"
+                android:textColor="@color/colorGrey"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="32dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wrong_bank_account_alert_textView" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/rendered_bank_name_editText"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:hint="@string/rendered_bank_name_hint"
+                android:gravity="end"
+                android:maxLines="1"
+                app:backgroundTint="@color/colorGreyLight"
+                app:layout_constraintBottom_toBottomOf="@+id/bank_name_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bank_name_label"
+                tools:text="코봉은행" />
+
+            <TextView
+                android:id="@+id/bank_account_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/bank_account_label"
+                android:textColor="@color/colorGrey"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="32dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bank_name_label" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/rendered_bank_account_editText"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:hint="@string/rendered_bank_account_hint"
+                android:gravity="end"
+                android:inputType="number"
+                android:maxLength="12"
+                android:maxLines="1"
+                app:backgroundTint="@color/colorGreyLight"
+                app:layout_constraintBottom_toBottomOf="@+id/bank_account_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bank_account_label"
+                tools:text="000000000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:paddingBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <Button
+                    android:id="@+id/retry_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_weight="11"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/background_main_button_light"
+                    android:text="@string/retry_button_label"
+                    android:textColor="@color/colorMain"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/copy_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_weight="8"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/background_main_button"
+                    android:text="@string/copy_button_label"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

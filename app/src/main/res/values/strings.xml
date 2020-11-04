@@ -5,4 +5,9 @@
     <string name="retry_button_label">다시찍기</string>
     <string name="permission_not_checked_toast_label">필요한 권한이 승인되지 않았습니다.</string>
     <string name="camera_take_picture_button_label">캡쳐하기</string>
+    <string name="bank_name_label">은행명</string>
+    <string name="bank_account_label">계좌번호</string>
+    <string name="check_bank_title">계좌 번호 확인하기</string>
+    <string name="rendered_bank_name_hint">코봉은행</string>
+    <string name="rendered_bank_account_hint">000000000000</string>
 </resources>
