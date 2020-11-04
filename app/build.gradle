@@ -1,9 +1,31 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+def getProperty(String filename, String propName) {
+    def propsFile = rootProject.file(filename)
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        if (props[propName] != null) {
+            return props[propName]
+        } else {
+            print("No such property " + propName + " in file " + filename)
+        }
+    } else {
+        print(filename + " does not exist!")
+    }
+}
+
 
 android {
     compileSdkVersion 30
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.coveong.bankacountscanner"
@@ -12,7 +34,15 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "GOOGLE_VISION_API_KEY", "\"${getProperty("secure.properties", "GOOGLE_VISION_API_KEY")}\""
+        buildConfigField "String", "GOOGLE_VISION_BASE_URL", '"https://vision.googleapis.com/"'
+        buildConfigField "String", "TEST_IMAGE_LOCATION", '"/sdcard/Pictures/test.jpg"' // FIXME: 로직 바뀌면 삭제해야하는 코드
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     buildTypes {
@@ -33,5 +63,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "com.google.android.material:material:1.2.1"
-
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    kapt "com.android.databinding:compiler:3.1.4"
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
 }
