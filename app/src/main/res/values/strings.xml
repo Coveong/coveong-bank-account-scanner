@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BankAcountScanner</string>
-    <string name="wrong_bank_account_alert_message">계좌 정보 및 예금주명을 꼭 확인해주세요</string>
-    <string name="copy_button_label">✂️ 복사하기 📋</string>
-    <string name="retry_button_label">📷 다시찍기 📸</string>
+    <string name="wrong_bank_account_alert_message"><u>계좌 정보 및 예금주명을 꼭 확인해주세요.</u></string>
+    <string name="copy_button_label">복사하기</string>
+    <string name="retry_button_label">다시찍기</string>
     <string name="permission_not_checked_toast_label">필요한 권한이 승인되지 않았습니다.</string>
     <string name="camera_take_picture_button_label">캡쳐하기</string>
 </resources>
