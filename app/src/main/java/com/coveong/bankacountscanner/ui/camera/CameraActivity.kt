@@ -126,11 +126,6 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    private fun closeCamera() {
-        cameraDevice?.close()
-        cameraDevice = null
-    }
-
     private fun initializeCameraDeviceAndCreateCameraPreview(cameraDevice: CameraDevice) {
         this.cameraDevice = cameraDevice
         val texture = camera_preview.surfaceTexture!!
@@ -299,9 +294,9 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        closeCamera()
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
+        cameraDevice?.close()
     }
 
     companion object {
