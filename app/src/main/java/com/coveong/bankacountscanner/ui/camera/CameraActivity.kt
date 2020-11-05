@@ -2,6 +2,7 @@ package com.coveong.bankacountscanner.ui.camera
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.hardware.camera2.*
@@ -217,6 +218,10 @@ class CameraActivity : AppCompatActivity() {
                         cropWidthX,
                         cropHeightY
                     )
+                    setResult(RESULT_CAMERA_IMAGE_RECEIVED, Intent().apply {
+                        putExtra("image", croppedBitmap)
+                    })
+                    finish()
                 } catch (e: RuntimeException) {
                     // TODO 에러 처리하기
                 } finally {
@@ -287,5 +292,6 @@ class CameraActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 0x1001
+        const val RESULT_CAMERA_IMAGE_RECEIVED = 0x1003
     }
 }
