@@ -23,9 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        settingPermissionForTest()
         settingMainViewModel()
-        callApiForTest()
         settingContentView()
         requestPreviewImageIfNull()
 
@@ -40,28 +38,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun settingPermissionForTest() { // FIXME: 테스트 할 시에 삭제해야하는 메소드
-        val permissionCheck = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                123
-            )
-        }
-    }
-
     private fun settingMainViewModel() {
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java).apply {
             initializeRetrofit()
         }
-    }
-
-    private fun callApiForTest() { // FIXME: 테스트 할 시에 삭제해야하는 메소드
-        mainViewModel.getAccountInfo()
     }
 
     private fun settingContentView() {
@@ -78,7 +58,10 @@ class MainActivity : AppCompatActivity() {
             REQUEST_CAMERA_PICTURE -> when (resultCode) {
                 CameraActivity.RESULT_CAMERA_IMAGE_RECEIVED -> {
                     val image = data?.getParcelableExtra("image") as? Bitmap
-                    image?.let { setCameraImagePreview(it) }
+                    image?.let {
+                        setCameraImagePreview(it)
+                        mainViewModel.getAccountInfo(it)
+                    }
                 }
             }
         }

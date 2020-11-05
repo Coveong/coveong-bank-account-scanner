@@ -1,6 +1,7 @@
 package com.coveong.bankacountscanner.ui
 
 
+import android.graphics.Bitmap
 import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
-import java.io.File
+import java.io.ByteArrayOutputStream
 
 
 class MainViewModel : ViewModel() {
@@ -31,11 +32,10 @@ class MainViewModel : ViewModel() {
             .build()
     }
 
-
-    fun getAccountInfo() {
+    fun getAccountInfo(image: Bitmap) {
         val googleVisionService: GoogleVisionService = retrofit.create(GoogleVisionService::class.java)
 
-        val requests = makeRequestInfoWithImage(getTestImage())
+        val requests = makeRequestInfoWithImage(encodeBitmapImage(image))
         val googleApiRequest = GoogleApiRequest(requests)
 
         val call: Call<GoogleApiResponse> = googleVisionService.getImageText(BuildConfig.GOOGLE_VISION_API_KEY, googleApiRequest)
@@ -64,14 +64,10 @@ class MainViewModel : ViewModel() {
         return listOf(requests)
     }
 
-    // FIXME: 사진 전달받는 코드 생기면 삭제할 코드
-    private fun getTestImage(): String {
-        val file = File(BuildConfig.TEST_IMAGE_LOCATION)
-        return serializeFile(file)
-    }
-
-    fun serializeFile(attachment: File): String {
-        return Base64.encodeToString(attachment.readBytes(), Base64.NO_WRAP)
+    private fun encodeBitmapImage(image: Bitmap): String {
+        val byteArrayOS = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOS)
+        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.NO_WRAP)
     }
 
 }
