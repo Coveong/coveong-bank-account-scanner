@@ -6,24 +6,31 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
 import com.coveong.bankacountscanner.ui.MainViewModel
 
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var mainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        settingMainViewModel()
+        initializeMainViewModel()
         settingContentView()
         requestPreviewImageIfNull()
 
@@ -31,16 +38,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestPreviewImageIfNull() {
         if (preview_imageView.background == null) {
-            startActivityForResult(
-                Intent(this, CameraActivity::class.java),
-                REQUEST_CAMERA_PICTURE
-            )
+            requestPreviewImage()
         }
     }
 
-    private fun settingMainViewModel() {
+    private fun requestPreviewImage() {
+        startActivityForResult(
+            Intent(this, CameraActivity::class.java),
+            REQUEST_CAMERA_PICTURE
+        )
+    }
+
+    private fun initializeMainViewModel() {
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java).apply {
             initializeRetrofit()
+            onClickRecapture.observe(
+                this@MainActivity, Observer { event ->
+                    event.getExtraIfNotHandled()?.let {
+                        requestPreviewImage()
+                    }
+                }
+            )
         }
     }
 

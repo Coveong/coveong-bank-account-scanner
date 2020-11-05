@@ -206,6 +206,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="11"
                     android:layout_marginEnd="4dp"
+                    android:onClick="@{v -> viewModel.recaptureImage()}"
                     android:background="@drawable/background_main_button_light"
                     android:text="@string/retry_button_label"
                     android:textColor="@color/colorMain"
