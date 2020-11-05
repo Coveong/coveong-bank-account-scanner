@@ -35,6 +35,9 @@ class MainViewModel : ViewModel() {
     private var _onClickRecapture = MutableLiveData<Event<Unit>>()
     val onClickRecapture: LiveData<Event<Unit>> = _onClickRecapture
 
+    private var _onClickCopyBankAccount = MutableLiveData<Event<String>>()
+    val onClickCopyBankAccount: LiveData<Event<String>> = _onClickCopyBankAccount
+
     fun initializeRetrofit() {
         retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.GOOGLE_VISION_BASE_URL)
@@ -82,6 +85,10 @@ class MainViewModel : ViewModel() {
 
     fun recaptureImage() {
         _onClickRecapture.postValue(Event(Unit))
+    }
+
+    fun copyBankAccount() {
+        _onClickCopyBankAccount.postValue(Event("text"))  // FIXME: 나중에 실제 은행 계좌로 변경
     }
 
 }

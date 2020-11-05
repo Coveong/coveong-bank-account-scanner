@@ -59,6 +59,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             )
+            onClickCopyBankAccount.observe(
+                this@MainActivity, Observer { event ->
+                    event.getExtraIfNotHandled()?.let { bankAccount ->
+                        copyStringToClipboardAndShowToast(bankAccount)
+                    }
+                }
+            )
         }
     }
 
@@ -87,6 +94,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setCameraImagePreview(image: Bitmap) {
         preview_imageView.background = BitmapDrawable(resources, image)
+    }
+
+    private fun copyStringToClipboardAndShowToast(string: String) {
+        val clipboard =
+            getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(string, string)
+        clipboard.setPrimaryClip(clip)
+        val message = resources.getString(R.string.bank_account_copied)
+        Toast.makeText(
+            this@MainActivity,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     companion object {

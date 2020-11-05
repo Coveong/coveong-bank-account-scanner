@@ -219,6 +219,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="8"
                     android:layout_marginStart="4dp"
+                    android:onClick="@{v -> viewModel.copyBankAccount()}"
                     android:background="@drawable/background_main_button"
                     android:text="@string/copy_button_label"
                     android:textColor="@color/colorWhite"
