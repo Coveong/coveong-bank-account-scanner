@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.*
 import android.hardware.camera2.*
 import android.media.Image
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_camera.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
+
 class CameraActivity : AppCompatActivity() {
 
     private var cameraDevice: CameraDevice? = null
@@ -29,6 +31,7 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var captureRequestBuilder: CaptureRequest.Builder
 
     private val manager by lazy { getSystemService(Context.CAMERA_SERVICE) as CameraManager }
+    private val characteristics by lazy { manager.getCameraCharacteristics(manager.cameraIdList[0]) }
 
     private val requestPermission = {
         ActivityCompat.requestPermissions(
@@ -89,14 +92,8 @@ class CameraActivity : AppCompatActivity() {
     }
 
     fun openCamera() {
+        setUpCameraOutputs()
         try {
-            val cameraId =  manager.cameraIdList[0]
-            val cameraCharacter =
-                manager.getCameraCharacteristics(cameraId)
-            val map =
-                cameraCharacter.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
-            previewSize = map.getOutputSizes(SurfaceTexture::class.java)[0]
-
             if (
                 ActivityCompat.checkSelfPermission(
                     this,
@@ -105,7 +102,24 @@ class CameraActivity : AppCompatActivity() {
             ) {
                 requestPermission.invoke()
             } else {
-                manager.openCamera(cameraId, stateCallback, null)
+                manager.openCamera(manager.cameraIdList[0], stateCallback, null)
+            }
+        } catch (e: CameraAccessException) {
+            // TODO 에러 처리하기
+        }
+    }
+
+    private fun setUpCameraOutputs() {
+        try {
+            previewSize = characteristics.get(
+                CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!
+                .getOutputSizes(ImageFormat.JPEG).maxBy { it.height * it.width }!!
+
+            val orientation = resources.configuration.orientation
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                camera_preview.setAspectRatio(previewSize.width, previewSize.height)
+            } else {
+                camera_preview.setAspectRatio(previewSize.height, previewSize.width)
             }
         } catch (e: CameraAccessException) {
             // TODO 에러 처리하기
