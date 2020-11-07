@@ -45,9 +45,9 @@ class MainViewModel : ViewModel() {
                 val googleApiResponse = response.body() as GoogleApiResponse
                 val result = googleApiResponse.textAnnotations?.get(0)?.text?.get(0)?.description
 
-        call.enqueue(object : Callback<Object> {
-            override fun onResponse(call: Call<Object>, response: Response<Object>) {
-                println(response.body())
+                if (result != null) {
+                    accountInfo = CoveongAccountParser.parsingAccount(result)
+                }
             }
 
             override fun onFailure(call: Call<GoogleApiResponse>, t: Throwable) {
