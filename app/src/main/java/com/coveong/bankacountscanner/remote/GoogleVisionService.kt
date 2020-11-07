@@ -1,6 +1,7 @@
 package com.coveong.bankacountscanner.remote
 
 import com.example.coveong.models.GoogleApiRequest
+import com.example.coveong.models.GoogleApiResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -12,6 +13,6 @@ interface GoogleVisionService {
     fun getImageText(
         @Query("key") key: String? = null,
         @Body params: GoogleApiRequest
-    ) : Call<Object>
+    ) : Call<GoogleApiResponse>
 
 }
