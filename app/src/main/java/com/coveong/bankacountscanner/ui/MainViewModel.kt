@@ -2,13 +2,12 @@ package com.coveong.bankacountscanner.ui
 
 
 import android.util.Base64
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.coveong.bankacountscanner.BuildConfig
 import com.coveong.bankacountscanner.remote.GoogleVisionService
-import com.example.coveong.models.Feature
-import com.example.coveong.models.GoogleApiRequest
-import com.example.coveong.models.ImageInfo
-import com.example.coveong.models.Request
+import com.coveong.bankacountscanner.util.CoveongAccountParser
+import com.example.coveong.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +19,8 @@ import java.io.File
 class MainViewModel : ViewModel() {
 
     private lateinit var retrofit: Retrofit
+    private lateinit var accountInfo: AccountInfo
+
 
     private val GET_TEXT_FROM_IMAGE = "TEXT_DETECTION"
 
@@ -37,18 +38,22 @@ class MainViewModel : ViewModel() {
         val requests = makeRequestInfoWithImage(getTestImage())
         val googleApiRequest = GoogleApiRequest(requests)
 
-        val call: Call<Object> = googleVisionService.getImageText(BuildConfig.GOOGLE_VISION_API_KEY, googleApiRequest)
+        val call: Call<GoogleApiResponse> = googleVisionService.getImageText(BuildConfig.GOOGLE_VISION_API_KEY, googleApiRequest)
+
+        call.enqueue(object : Callback<GoogleApiResponse> {
+            override fun onResponse(call: Call<GoogleApiResponse>, response: Response<GoogleApiResponse>) {
+                val googleApiResponse = response.body() as GoogleApiResponse
+                val result = googleApiResponse.textAnnotations?.get(0)?.text?.get(0)?.description
 
         call.enqueue(object : Callback<Object> {
             override fun onResponse(call: Call<Object>, response: Response<Object>) {
                 println(response.body())
             }
 
-            override fun onFailure(call: Call<Object>, t: Throwable) {
-                print(t.message)
+            override fun onFailure(call: Call<GoogleApiResponse>, t: Throwable) {
+                t.message?.let { Log.d("fail", it) }
             }
         })
-
     }
 
     private fun makeRequestInfoWithImage(image: String): List<Request> {
