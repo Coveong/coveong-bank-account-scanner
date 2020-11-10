@@ -15,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             this, R.layout.activity_main
         ).apply {
             viewModel = mainViewModel
+            lifecycleOwner = this@MainActivity
         }
     }
 
