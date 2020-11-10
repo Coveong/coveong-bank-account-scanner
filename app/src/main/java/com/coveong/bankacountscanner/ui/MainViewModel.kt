@@ -78,7 +78,7 @@ class MainViewModel : ViewModel() {
 
     private fun encodeBitmapImage(image: Bitmap): String {
         val byteArrayOS = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOS)
+        image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOS)
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.NO_WRAP)
     }
 

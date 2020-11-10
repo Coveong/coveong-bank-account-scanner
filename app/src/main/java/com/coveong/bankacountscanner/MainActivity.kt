@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
 import com.coveong.bankacountscanner.ui.MainViewModel
+import com.coveong.bankacountscanner.ui.camera.CameraRepository
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,17 +31,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        requestPreviewImage()
         setContentView(R.layout.activity_main)
         initializeMainViewModel()
         settingContentView()
-        requestPreviewImageIfNull()
-
-    }
-
-    private fun requestPreviewImageIfNull() {
-        if (preview_imageView.background == null) {
-            requestPreviewImage()
-        }
     }
 
     private fun requestPreviewImage() {
@@ -84,10 +78,11 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             REQUEST_CAMERA_PICTURE -> when (resultCode) {
                 CameraActivity.RESULT_CAMERA_IMAGE_RECEIVED -> {
-                    val image = data?.getParcelableExtra("image") as? Bitmap
+                    val image = CameraRepository.takenPicture
                     image?.let {
                         setCameraImagePreview(it)
                         mainViewModel.getAccountInfo(it)
+                        CameraRepository.takenPicture = null
                     }
                 }
             }
