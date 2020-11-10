@@ -87,7 +87,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun copyBankAccount() {
-        _onClickCopyBankAccount.postValue(Event("text"))  // FIXME: 나중에 실제 은행 계좌로 변경
+        _onClickCopyBankAccount.postValue(Event(accountInfo.value.toString()))
     }
 
     companion object {
