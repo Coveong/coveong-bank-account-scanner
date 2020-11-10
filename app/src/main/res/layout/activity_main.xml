@@ -68,7 +68,7 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/rendered_bank_name_editText"
-                android:layout_width="148dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:padding="10dp"
@@ -76,6 +76,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorBlack"
                 android:hint="@string/rendered_bank_name_hint"
+                android:text="@={viewModel.accountInfo.bankName}"
                 android:gravity="end"
                 android:maxLines="1"
                 app:backgroundTint="@color/colorGreyLight"
@@ -175,7 +176,7 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/rendered_bank_account_editText"
-                android:layout_width="148dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:padding="10dp"
@@ -183,9 +184,8 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorBlack"
                 android:hint="@string/rendered_bank_account_hint"
+                android:text="@={viewModel.accountInfo.account}"
                 android:gravity="end"
-                android:inputType="number"
-                android:maxLength="12"
                 android:maxLines="1"
                 app:backgroundTint="@color/colorGreyLight"
                 app:layout_constraintBottom_toBottomOf="@+id/bank_account_label"

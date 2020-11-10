@@ -8,14 +8,15 @@ import androidx.lifecycle.ViewModel
 import com.coveong.bankacountscanner.BuildConfig
 import com.coveong.bankacountscanner.remote.GoogleVisionService
 import com.coveong.bankacountscanner.util.CoveongAccountParser
-import com.example.coveong.models.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.coveong.bankacountscanner.models.AccountInfo
 import com.coveong.bankacountscanner.util.Event
-import com.example.coveong.models.Feature
-import com.example.coveong.models.GoogleApiRequest
-import com.example.coveong.models.ImageInfo
-import com.example.coveong.models.Request
+import com.coveong.bankacountscanner.models.Feature
+import com.coveong.bankacountscanner.models.GoogleApiRequest
+import com.coveong.bankacountscanner.models.GoogleApiResponse
+import com.coveong.bankacountscanner.models.ImageInfo
+import com.coveong.bankacountscanner.models.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,8 +28,6 @@ import java.io.ByteArrayOutputStream
 class MainViewModel : ViewModel() {
 
     private lateinit var retrofit: Retrofit
-    private lateinit var accountInfo: AccountInfo
-
 
     private val GET_TEXT_FROM_IMAGE = "TEXT_DETECTION"
 
@@ -37,6 +36,8 @@ class MainViewModel : ViewModel() {
 
     private var _onClickCopyBankAccount = MutableLiveData<Event<String>>()
     val onClickCopyBankAccount: LiveData<Event<String>> = _onClickCopyBankAccount
+
+    var accountInfo = MutableLiveData<AccountInfo>(AccountInfo("", ""))
 
     fun initializeRetrofit() {
         retrofit = Retrofit.Builder()
@@ -55,11 +56,11 @@ class MainViewModel : ViewModel() {
 
         call.enqueue(object : Callback<GoogleApiResponse> {
             override fun onResponse(call: Call<GoogleApiResponse>, response: Response<GoogleApiResponse>) {
-                val googleApiResponse = response.body() as GoogleApiResponse
-                val result = googleApiResponse.textAnnotations?.get(0)?.text?.get(0)?.description
+                val googleApiResponse = response.body()
+                val result = googleApiResponse?.textAnnotations?.get(0)?.text?.get(0)?.description
 
                 if (result != null) {
-                    accountInfo = CoveongAccountParser.parseAccount(result)
+                    accountInfo.postValue(CoveongAccountParser.parseAccount(result))
                 }
             }
 
