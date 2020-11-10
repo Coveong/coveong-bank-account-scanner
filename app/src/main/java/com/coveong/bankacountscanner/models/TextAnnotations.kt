@@ -1,4 +1,4 @@
-package com.example.coveong.models
+package com.coveong.bankacountscanner.models
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties

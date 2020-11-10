@@ -1,4 +1,4 @@
-package com.example.coveong.models
+package com.coveong.bankacountscanner.models
 
 data class AccountInfo constructor(
     var bankName: String,
