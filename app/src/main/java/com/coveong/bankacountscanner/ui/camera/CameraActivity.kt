@@ -19,6 +19,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.coveong.bankacountscanner.R
 import kotlinx.android.synthetic.main.activity_camera.*
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
@@ -227,14 +231,13 @@ class CameraActivity : AppCompatActivity() {
                         cropWidthX,
                         cropHeightY
                     )
-                    setResult(RESULT_CAMERA_IMAGE_RECEIVED, Intent().apply {
-                        putExtra("image", croppedBitmap)
-                    })
-                    finish()
+                    CameraRepository.takenPicture = croppedBitmap
+                    setResult(RESULT_CAMERA_IMAGE_RECEIVED, Intent())
                 } catch (e: RuntimeException) {
                     // TODO 에러 처리하기
                 } finally {
                     image?.close()
+                    finish()
                 }
             }
 

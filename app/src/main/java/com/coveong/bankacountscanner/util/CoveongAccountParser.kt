@@ -1,6 +1,6 @@
 package com.coveong.bankacountscanner.util
 
-import com.example.coveong.models.AccountInfo
+import com.coveong.bankacountscanner.models.AccountInfo
 import java.lang.Character.isDigit
 
 object CoveongAccountParser {

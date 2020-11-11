@@ -1,7 +1,7 @@
 package com.coveong.bankacountscanner.remote
 
-import com.example.coveong.models.GoogleApiRequest
-import com.example.coveong.models.GoogleApiResponse
+import com.coveong.bankacountscanner.models.GoogleApiRequest
+import com.coveong.bankacountscanner.models.GoogleApiResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
