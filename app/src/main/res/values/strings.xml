@@ -14,4 +14,5 @@
     <string name="toss_logo_label">토스</string>
     <string name="share_logo_label">공유하기</string>
     <string name="bank_account_copied">복사되었습니다.</string>
+    <string name="capture_guide">틀 안에 계좌번호와 은행이\n포함되도록 찍어주세요!</string>
 </resources>
