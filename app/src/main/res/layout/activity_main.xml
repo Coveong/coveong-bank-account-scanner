@@ -161,7 +161,7 @@
                     app:layout_constraintStart_toEndOf="@id/toss_logo_imageView" />
 
                 <TextView
-                    android:id="@+id/share__logo_label_textView"
+                    android:id="@+id/share_logo_label_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/share_logo_label"
@@ -201,14 +201,13 @@
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <Button
-                    android:id="@+id/retry_button"
+                    android:id="@+id/recapture_button"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_weight="11"
                     android:layout_marginEnd="4dp"
-                    android:onClick="@{v -> viewModel.recaptureImage()}"
                     android:background="@drawable/background_main_button_light"
-                    android:text="@string/retry_button_label"
+                    android:text="@string/recapture_button_label"
                     android:textColor="@color/colorMain"
                     android:textSize="16sp"
                     android:fontFamily="@font/noto_sans_cjk_kr_medium" />
