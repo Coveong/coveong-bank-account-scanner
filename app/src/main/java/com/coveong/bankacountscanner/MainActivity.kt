@@ -78,6 +78,12 @@ class MainActivity : AppCompatActivity() {
         recapture_button.setOnClickListener {
             requestPreviewImage()
         }
+        kakaobank_logo_imageView.setOnClickListener {
+            launchExternalApp(R.string.kakaobank_package_name)
+        }
+        toss_logo_imageView.setOnClickListener {
+            launchExternalApp(R.string.toss_package_name)
+        }
     }
 
     private fun initializeProgressDialog() {
@@ -118,6 +124,16 @@ class MainActivity : AppCompatActivity() {
             message,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun launchExternalApp(packageNameId: Int) {
+        val intent = packageManager.getLaunchIntentForPackage(getString(packageNameId))
+        if (intent == null) {
+            // TODO: 앱이 설치되지 않았을 때의 에러 처리하기
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
     }
 
     companion object {
