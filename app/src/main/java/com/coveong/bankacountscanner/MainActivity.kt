@@ -55,10 +55,17 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             )
-            onClickCopyBankAccount.observe(
+            onClickCopyAccountInfo.observe(
                 this@MainActivity, Observer { event ->
-                    event.getExtraIfNotHandled()?.let { bankAccount ->
-                        copyStringToClipboardAndShowToast(bankAccount)
+                    event.getExtraIfNotHandled()?.let { accountInfoString ->
+                        copyStringToClipboardAndShowToast(accountInfoString)
+                    }
+                }
+            )
+            onClickShareIcon.observe(
+                this@MainActivity, Observer { event ->
+                    event.getExtraIfNotHandled()?.let { accountInfoString ->
+                        openShareDialog(accountInfoString)
                     }
                 }
             )
@@ -134,6 +141,16 @@ class MainActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
+    }
+
+    private fun openShareDialog(textToShare: String) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, textToShare)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     companion object {
