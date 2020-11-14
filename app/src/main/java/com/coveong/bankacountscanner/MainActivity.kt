@@ -1,23 +1,23 @@
 package com.coveong.bankacountscanner
 
-import com.coveong.bankacountscanner.ui.camera.CameraActivity
-import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
 import com.coveong.bankacountscanner.ui.MainViewModel
+import com.coveong.bankacountscanner.ui.camera.CameraActivity
 import com.coveong.bankacountscanner.ui.camera.CameraRepository
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initializeMainViewModel()
         settingContentView()
+        initializeViewListener()
         initializeProgressDialog()
     }
 
@@ -54,13 +55,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             )
-            onClickRecapture.observe(
-                this@MainActivity, Observer { event ->
-                    event.getExtraIfNotHandled()?.let {
-                        requestPreviewImage()
-                    }
-                }
-            )
             onClickCopyBankAccount.observe(
                 this@MainActivity, Observer { event ->
                     event.getExtraIfNotHandled()?.let { bankAccount ->
@@ -77,6 +71,12 @@ class MainActivity : AppCompatActivity() {
         ).apply {
             viewModel = mainViewModel
             lifecycleOwner = this@MainActivity
+        }
+    }
+
+    private fun initializeViewListener() {
+        recapture_button.setOnClickListener {
+            requestPreviewImage()
         }
     }
 

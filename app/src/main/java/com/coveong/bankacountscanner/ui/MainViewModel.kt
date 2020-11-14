@@ -29,9 +29,6 @@ class MainViewModel : ViewModel() {
 
     private lateinit var retrofit: Retrofit
 
-    private var _onClickRecapture = MutableLiveData<Event<Unit>>()
-    val onClickRecapture: LiveData<Event<Unit>> = _onClickRecapture
-
     private var _onClickCopyBankAccount = MutableLiveData<Event<String>>()
     val onClickCopyBankAccount: LiveData<Event<String>> = _onClickCopyBankAccount
 
@@ -87,10 +84,6 @@ class MainViewModel : ViewModel() {
         val byteArrayOS = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOS)
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.NO_WRAP)
-    }
-
-    fun recaptureImage() {
-        _onClickRecapture.postValue(Event(Unit))
     }
 
     fun copyBankAccount() {
