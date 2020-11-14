@@ -7,7 +7,7 @@
     <string name="camera_take_picture_button_label">캡쳐하기</string>
     <string name="bank_name_label">은행명</string>
     <string name="bank_account_label">계좌번호</string>
-    <string name="check_bank_title">계좌 번호 확인하기</string>
+    <string name="check_bank_title">계좌번호 확인하기</string>
     <string name="rendered_bank_name_hint">코봉은행</string>
     <string name="rendered_bank_account_hint">000000000000</string>
     <string name="kakaobank_logo_label">카카오뱅크</string>
@@ -15,4 +15,5 @@
     <string name="share_logo_label">공유하기</string>
     <string name="bank_account_copied">복사되었습니다.</string>
     <string name="capture_guide">틀 안에 계좌번호와 은행이\n포함되도록 찍어주세요!</string>
+    <string name="progress_dialog_label">계좌정보 인식 중</string>
 </resources>
