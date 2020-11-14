@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 외부 앱 패키지명 -->
+    <string name="kakaobank_package_name">com.kakaobank.channel</string>
+    <string name="toss_package_name">viva.republica.toss</string>
+</resources>
