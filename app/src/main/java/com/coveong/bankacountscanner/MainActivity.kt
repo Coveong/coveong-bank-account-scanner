@@ -45,6 +45,15 @@ class MainActivity : AppCompatActivity() {
     private fun initializeMainViewModel() {
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java).apply {
             initializeRetrofit()
+            isLoading.observe(
+                this@MainActivity, Observer<Boolean> { isLoading ->
+                    if (isLoading) {
+                        progressDialog.show()
+                    } else {
+                        progressDialog.dismiss()
+                    }
+                }
+            )
             onClickRecapture.observe(
                 this@MainActivity, Observer { event ->
                     event.getExtraIfNotHandled()?.let {
