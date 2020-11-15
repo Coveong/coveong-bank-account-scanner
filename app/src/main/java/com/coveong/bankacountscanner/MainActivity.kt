@@ -1,23 +1,23 @@
 package com.coveong.bankacountscanner
 
-import com.coveong.bankacountscanner.ui.camera.CameraActivity
-import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
 import com.coveong.bankacountscanner.ui.MainViewModel
+import com.coveong.bankacountscanner.ui.camera.CameraActivity
 import com.coveong.bankacountscanner.ui.camera.CameraRepository
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initializeMainViewModel()
         settingContentView()
+        initializeViewListener()
         initializeProgressDialog()
     }
 
@@ -54,17 +55,17 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             )
-            onClickRecapture.observe(
+            onClickCopyAccountInfo.observe(
                 this@MainActivity, Observer { event ->
-                    event.getExtraIfNotHandled()?.let {
-                        requestPreviewImage()
+                    event.getExtraIfNotHandled()?.let { accountInfoString ->
+                        copyStringToClipboardAndShowToast(accountInfoString)
                     }
                 }
             )
-            onClickCopyBankAccount.observe(
+            onClickShareIcon.observe(
                 this@MainActivity, Observer { event ->
-                    event.getExtraIfNotHandled()?.let { bankAccount ->
-                        copyStringToClipboardAndShowToast(bankAccount)
+                    event.getExtraIfNotHandled()?.let { accountInfoString ->
+                        openShareDialog(accountInfoString)
                     }
                 }
             )
@@ -77,6 +78,18 @@ class MainActivity : AppCompatActivity() {
         ).apply {
             viewModel = mainViewModel
             lifecycleOwner = this@MainActivity
+        }
+    }
+
+    private fun initializeViewListener() {
+        recapture_button.setOnClickListener {
+            requestPreviewImage()
+        }
+        kakaobank_logo_imageView.setOnClickListener {
+            launchExternalApp(R.string.kakaobank_package_name)
+        }
+        toss_logo_imageView.setOnClickListener {
+            launchExternalApp(R.string.toss_package_name)
         }
     }
 
@@ -118,6 +131,26 @@ class MainActivity : AppCompatActivity() {
             message,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun launchExternalApp(packageNameId: Int) {
+        val intent = packageManager.getLaunchIntentForPackage(getString(packageNameId))
+        if (intent == null) {
+            // TODO: 앱이 설치되지 않았을 때의 에러 처리하기
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
+    private fun openShareDialog(textToShare: String) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, textToShare)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     companion object {

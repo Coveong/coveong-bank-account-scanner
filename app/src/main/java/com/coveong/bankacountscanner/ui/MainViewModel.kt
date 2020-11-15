@@ -29,11 +29,11 @@ class MainViewModel : ViewModel() {
 
     private lateinit var retrofit: Retrofit
 
-    private var _onClickRecapture = MutableLiveData<Event<Unit>>()
-    val onClickRecapture: LiveData<Event<Unit>> = _onClickRecapture
+    private var _onClickCopyAccountInfo = MutableLiveData<Event<String>>()
+    val onClickCopyAccountInfo: LiveData<Event<String>> = _onClickCopyAccountInfo
 
-    private var _onClickCopyBankAccount = MutableLiveData<Event<String>>()
-    val onClickCopyBankAccount: LiveData<Event<String>> = _onClickCopyBankAccount
+    private var _onClickShareIcon = MutableLiveData<Event<String>>()
+    val onClickShareIcon: LiveData<Event<String>> = _onClickShareIcon
 
     private var _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -89,12 +89,12 @@ class MainViewModel : ViewModel() {
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.NO_WRAP)
     }
 
-    fun recaptureImage() {
-        _onClickRecapture.postValue(Event(Unit))
+    fun onClickCopyAccountInfo() {
+        _onClickCopyAccountInfo.postValue(Event(accountInfo.value.toString()))
     }
 
-    fun copyBankAccount() {
-        _onClickCopyBankAccount.postValue(Event(accountInfo.value.toString()))
+    fun onClickShareIcon() {
+        _onClickShareIcon.postValue(Event(accountInfo.value.toString()))
     }
 
     companion object {
