@@ -13,19 +13,25 @@ object CoveongAccountParser {
     }
 
     private fun getAccountNumberByAccount(account: String): String {
-        val result = account.map { changeNumberWhenSpecialCase(it) }.filter { isDigit(it) }
-        return String(result.toCharArray())
+        val result = account.map {
+            changeNumberWhenSpecialCase(it.toString())
+        }.filter {
+            it.matches("-?\\d+(\\.\\d+)?".toRegex())
+        }
+
+        return result.joinToString("")
     }
 
-    private fun changeNumberWhenSpecialCase(c: Char): Char {
-        val specialCase0 = arrayOf('0', 'o', 'O')
-        val specialCase1 = arrayOf('1', '|', 'l', '/')
-        val specialCase7 = arrayOf('7', 'n')
+    private fun changeNumberWhenSpecialCase(c: String): String {
+        val specialCase0 = arrayOf("0", "o", "O")
+        val specialCase1 = arrayOf("1", "|", "l", "/")
+        val specialCase01 = arrayOf("01", "이")
+        val specialCase7 = arrayOf("7", "n")
 
-        val specialCases = arrayOf(specialCase0, specialCase1, specialCase7)
+        val specialCases = arrayOf(specialCase0, specialCase1, specialCase01, specialCase7)
 
         for (case in specialCases) {
-            for (i in 1..case.size) {
+            for (i in 1 until case.size) {
                 if (c == case[i]) {
                     return case[0]
                 }
