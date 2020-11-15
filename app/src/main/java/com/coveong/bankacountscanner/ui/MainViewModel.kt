@@ -35,6 +35,9 @@ class MainViewModel : ViewModel() {
     private var _onClickCopyBankAccount = MutableLiveData<Event<String>>()
     val onClickCopyBankAccount: LiveData<Event<String>> = _onClickCopyBankAccount
 
+    private var _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     var accountInfo = MutableLiveData<AccountInfo>(AccountInfo("", ""))
 
     fun initializeRetrofit() {
@@ -45,6 +48,8 @@ class MainViewModel : ViewModel() {
     }
 
     fun getAccountInfo(image: Bitmap) {
+        _isLoading.value = true
+
         val googleVisionService: GoogleVisionService = retrofit.create(GoogleVisionService::class.java)
 
         val requests = makeRequestInfoWithImage(encodeBitmapImage(image))
@@ -60,10 +65,12 @@ class MainViewModel : ViewModel() {
                 if (result != null) {
                     accountInfo.postValue(CoveongAccountParser.parseAccount(result))
                 }
+                _isLoading.postValue(false)
             }
 
             override fun onFailure(call: Call<GoogleApiResponse>, t: Throwable) {
                 t.message?.let { Log.d("fail", it) }
+                _isLoading.postValue(false)
             }
         })
     }
