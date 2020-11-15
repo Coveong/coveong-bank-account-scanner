@@ -18,8 +18,18 @@ object CoveongAccountParser {
     }
 
     private fun changeNumberWhenSpecialCase(c: Char): Char {
-        if (c == '|' || c == 'l' || c == 'I') {
-            return '1'
+        val specialCase0 = arrayOf('0', 'o', 'O')
+        val specialCase1 = arrayOf('1', '|', 'l', '/')
+        val specialCase7 = arrayOf('7', 'n')
+
+        val specialCases = arrayOf(specialCase0, specialCase1, specialCase7)
+
+        for (case in specialCases) {
+            for (i in 1..case.size) {
+                if (c == case[i]) {
+                    return case[0]
+                }
+            }
         }
         
         return c
