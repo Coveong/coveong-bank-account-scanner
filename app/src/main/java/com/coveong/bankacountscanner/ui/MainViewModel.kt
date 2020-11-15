@@ -74,7 +74,7 @@ class MainViewModel : ViewModel() {
         val requests = Request(
             image = ImageInfo(image),
             features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1),
-            imageContext = ImageContext(languageHints = listOf("en", "ko"))
+            imageContext = ImageContext(languageHints = listOf(KOREAN_LANGUAGE, ENGLISH_LANGUAGE))
         )
 
         return listOf(requests)
@@ -101,4 +101,3 @@ class MainViewModel : ViewModel() {
     }
 
 }
-
