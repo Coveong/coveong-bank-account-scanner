@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.coveong.bankacountscanner.R
+import com.coveong.bankacountscanner.error.CameraException
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.FileOutputStream
 import java.io.IOException
@@ -109,7 +110,7 @@ class CameraActivity : AppCompatActivity() {
                 manager.openCamera(manager.cameraIdList[0], stateCallback, null)
             }
         } catch (e: CameraAccessException) {
-            // TODO 에러 처리하기
+            throw CameraException(e.message)
         }
     }
 
@@ -126,7 +127,7 @@ class CameraActivity : AppCompatActivity() {
                 camera_preview.setAspectRatio(previewSize.height, previewSize.width)
             }
         } catch (e: CameraAccessException) {
-            // TODO 에러 처리하기
+            throw CameraException(e.message)
         }
     }
 
@@ -152,13 +153,13 @@ class CameraActivity : AppCompatActivity() {
                     }
 
                     override fun onConfigureFailed(cameraCaptureSession: CameraCaptureSession) {
-                        // TODO 에러 처리하기
+                        throw CameraException("Camera Error") // FIXME: 에러 메세지 변경
                     }
                 },
                 null
             )
         } catch (e: CameraAccessException) {
-            // TODO 에러 처리하기
+            throw CameraException(e.message)
         }
     }
 
@@ -166,7 +167,7 @@ class CameraActivity : AppCompatActivity() {
         try {
             cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, null)
         } catch (e: CameraAccessException) {
-            // TODO 에러 처리하기
+            throw CameraException(e.message)
         }
     }
 
@@ -234,7 +235,7 @@ class CameraActivity : AppCompatActivity() {
                     CameraRepository.takenPicture = croppedBitmap
                     setResult(RESULT_CAMERA_IMAGE_RECEIVED, Intent())
                 } catch (e: RuntimeException) {
-                    // TODO 에러 처리하기
+                    throw CameraException(e.message)
                 } finally {
                     image?.close()
                     finish()
@@ -258,12 +259,12 @@ class CameraActivity : AppCompatActivity() {
                     try {
                         session.capture(captureBuilder.build(), captureListener, null)
                     } catch (e: CameraAccessException) {
-                        // TODO 에러 처리하기
+                        throw CameraException("Camera Error") // FIXME: 에러 메세지 변경
                     }
                 }
             }, null)
         } catch (e: CameraAccessException) {
-            // TODO 에러 처리하기
+            throw CameraException(e.message)
         }
     }
 

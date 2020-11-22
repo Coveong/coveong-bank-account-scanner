@@ -10,12 +10,10 @@ import com.coveong.bankacountscanner.remote.GoogleVisionService
 import com.coveong.bankacountscanner.util.CoveongAccountParser
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.coveong.bankacountscanner.error.HttpBadResponseException
 import com.coveong.bankacountscanner.models.*
 import com.coveong.bankacountscanner.util.Event
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+import retrofit2.*
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.ByteArrayOutputStream
 
@@ -64,7 +62,9 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<GoogleApiResponse>, t: Throwable) {
-                t.message?.let { Log.d("fail", it) }
+                t.message?.let {
+                    throw HttpBadResponseException(t.message)
+                }
                 _isLoading.postValue(false)
             }
         })
