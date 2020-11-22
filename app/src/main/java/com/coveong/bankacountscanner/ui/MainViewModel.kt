@@ -10,13 +10,8 @@ import com.coveong.bankacountscanner.remote.GoogleVisionService
 import com.coveong.bankacountscanner.util.CoveongAccountParser
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.coveong.bankacountscanner.models.AccountInfo
+import com.coveong.bankacountscanner.models.*
 import com.coveong.bankacountscanner.util.Event
-import com.coveong.bankacountscanner.models.Feature
-import com.coveong.bankacountscanner.models.GoogleApiRequest
-import com.coveong.bankacountscanner.models.GoogleApiResponse
-import com.coveong.bankacountscanner.models.ImageInfo
-import com.coveong.bankacountscanner.models.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -77,7 +72,9 @@ class MainViewModel : ViewModel() {
 
     private fun makeRequestInfoWithImage(image: String): List<Request> {
         val requests = Request(
-            image = ImageInfo(image), features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1)
+            image = ImageInfo(image),
+            features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1),
+            imageContext = ImageContext(languageHints = listOf(KOREAN_LANGUAGE, ENGLISH_LANGUAGE))
         )
 
         return listOf(requests)
@@ -98,8 +95,9 @@ class MainViewModel : ViewModel() {
     }
 
     companion object {
-        private const val GET_TEXT_FROM_IMAGE = "TEXT_DETECTION"
+        private const val GET_TEXT_FROM_IMAGE = "DOCUMENT_TEXT_DETECTION" // 이미지에서 텍스트 인식(필기체 위주)
+        private const val KOREAN_LANGUAGE = "ko"
+        private const val ENGLISH_LANGUAGE = "en"
     }
 
 }
-
