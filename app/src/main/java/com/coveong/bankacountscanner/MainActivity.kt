@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
+import com.coveong.bankacountscanner.error.ExternalAppNotInstalledException
 import com.coveong.bankacountscanner.ui.MainViewModel
 import com.coveong.bankacountscanner.ui.camera.CameraActivity
 import com.coveong.bankacountscanner.ui.camera.CameraRepository
@@ -136,7 +137,7 @@ class MainActivity : AppCompatActivity() {
     private fun launchExternalApp(packageNameId: Int) {
         val intent = packageManager.getLaunchIntentForPackage(getString(packageNameId))
         if (intent == null) {
-            // TODO: 앱이 설치되지 않았을 때의 에러 처리하기
+            throw ExternalAppNotInstalledException("앱이 설치되지 않았습니다.") // FIXME: 에러 메세지 변경
         } else {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
