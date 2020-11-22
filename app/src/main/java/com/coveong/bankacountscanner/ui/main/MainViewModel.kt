@@ -1,9 +1,8 @@
-package com.coveong.bankacountscanner.ui
+package com.coveong.bankacountscanner.ui.main
 
 
 import android.graphics.Bitmap
 import android.util.Base64
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.coveong.bankacountscanner.BuildConfig
 import com.coveong.bankacountscanner.remote.GoogleVisionService
@@ -74,7 +73,10 @@ class MainViewModel : ViewModel() {
         val requests = Request(
             image = ImageInfo(image),
             features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1),
-            imageContext = ImageContext(languageHints = listOf(KOREAN_LANGUAGE, ENGLISH_LANGUAGE))
+            imageContext = ImageContext(languageHints = listOf(
+                KOREAN_LANGUAGE,
+                ENGLISH_LANGUAGE
+            ))
         )
 
         return listOf(requests)

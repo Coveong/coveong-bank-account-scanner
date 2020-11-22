@@ -1,4 +1,4 @@
-package com.coveong.bankacountscanner
+package com.coveong.bankacountscanner.ui.main
 
 import android.app.Dialog
 import android.content.ClipData
@@ -13,9 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.coveong.bankacountscanner.R
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
 import com.coveong.bankacountscanner.error.ExternalAppNotInstalledException
-import com.coveong.bankacountscanner.ui.MainViewModel
 import com.coveong.bankacountscanner.ui.camera.CameraActivity
 import com.coveong.bankacountscanner.ui.camera.CameraRepository
 import kotlinx.android.synthetic.main.activity_main.*
