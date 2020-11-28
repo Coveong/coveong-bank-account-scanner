@@ -246,12 +246,7 @@ class CameraActivity : BaseActivity() {
 
             imageReader.setOnImageAvailableListener(readerListener, null)
 
-            val captureListener = object : CameraCaptureSession.CaptureCallback() {
-                override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-                    super.onCaptureCompleted(session, request, result)
-                    Log.d("leah", "사진 찍힘!!!")
-                }
-            }
+            val captureListener = object : CameraCaptureSession.CaptureCallback() { }
 
             // outputSurface 에 위에서 만든 captureListener 를 달아, 캡쳐(사진 찍기) 해주고 나서 카메라 미리보기 세션을 재시작한다
             cameraDevice!!.createCaptureSession(outputSurface, object : CameraCaptureSession.StateCallback() {
