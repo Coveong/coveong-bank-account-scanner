@@ -4,11 +4,11 @@
     <color name="colorPrimaryDark">@color/colorMainDark</color>
     <color name="colorAccent">@color/colorMain</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorMain">#6791F3</color>
-    <color name="colorMain_pressed">#4E72C6</color>
+    <color name="colorMain">#FF6D63</color>
+    <color name="colorMain_pressed">#C85851</color>
     <color name="colorMainLight">#EFF4FE</color>
-    <color name="colorMainLight_pressed">#D4D6DC</color>
-    <color name="colorMainDark">#2950A8</color>
+    <color name="colorMainLight_pressed">#FEF0EF</color>
+    <color name="colorMainDark">#9F3A34</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorDecentRed">#ED5151</color>
     <color name="colorBlack">#44475A</color>
