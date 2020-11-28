@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="com.coveong.bankacountscanner.ui.MainViewModel"/>
+        <variable name="viewModel" type="com.coveong.bankacountscanner.ui.main.MainViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".ui.main.MainActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/preview_imageView"

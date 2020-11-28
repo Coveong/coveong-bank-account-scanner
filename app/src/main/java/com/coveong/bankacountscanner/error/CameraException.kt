@@ -1,3 +1,4 @@
 package com.coveong.bankacountscanner.error
 
-class CameraException(message: String?) : BusinessException(message, ErrorCode.CAMERA_ERROR)
+class CameraException(message: String? = null) :
+    BusinessException(message, ErrorCode.CAMERA_ERROR)

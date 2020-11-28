@@ -1,16 +1,17 @@
-package com.coveong.bankacountscanner.ui
+package com.coveong.bankacountscanner.ui.main
 
 
 import android.graphics.Bitmap
 import android.util.Base64
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.coveong.bankacountscanner.BuildConfig
 import com.coveong.bankacountscanner.remote.GoogleVisionService
 import com.coveong.bankacountscanner.util.CoveongAccountParser
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.coveong.bankacountscanner.error.CameraException
 import com.coveong.bankacountscanner.error.HttpBadResponseException
+import com.coveong.bankacountscanner.error.handleError
 import com.coveong.bankacountscanner.models.*
 import com.coveong.bankacountscanner.util.Event
 import retrofit2.*
@@ -30,6 +31,9 @@ class MainViewModel : ViewModel() {
 
     private var _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private var _onError = MutableLiveData<Event<Throwable>>()
+    val onError: LiveData<Event<Throwable>> = _onError
 
     var accountInfo = MutableLiveData<AccountInfo>(AccountInfo("", ""))
 
@@ -62,9 +66,7 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<GoogleApiResponse>, t: Throwable) {
-                t.message?.let {
-                    throw HttpBadResponseException(t.message)
-                }
+                _onError.postValue(Event(t))
                 _isLoading.postValue(false)
             }
         })
@@ -74,7 +76,10 @@ class MainViewModel : ViewModel() {
         val requests = Request(
             image = ImageInfo(image),
             features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1),
-            imageContext = ImageContext(languageHints = listOf(KOREAN_LANGUAGE, ENGLISH_LANGUAGE))
+            imageContext = ImageContext(languageHints = listOf(
+                KOREAN_LANGUAGE,
+                ENGLISH_LANGUAGE
+            ))
         )
 
         return listOf(requests)
