@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.coveong.bankacountscanner.R
 import com.coveong.bankacountscanner.error.CameraException
+import com.coveong.bankacountscanner.error.handleError
+import com.coveong.bankacountscanner.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.FileOutputStream
 import java.io.IOException
@@ -28,7 +30,7 @@ import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 
-class CameraActivity : AppCompatActivity() {
+class CameraActivity : BaseActivity() {
 
     private var cameraDevice: CameraDevice? = null
     private lateinit var previewSize: Size
@@ -110,7 +112,7 @@ class CameraActivity : AppCompatActivity() {
                 manager.openCamera(manager.cameraIdList[0], stateCallback, null)
             }
         } catch (e: CameraAccessException) {
-            throw CameraException(e.message)
+            handleError(CameraException(e.message))
         }
     }
 
@@ -127,7 +129,7 @@ class CameraActivity : AppCompatActivity() {
                 camera_preview.setAspectRatio(previewSize.height, previewSize.width)
             }
         } catch (e: CameraAccessException) {
-            throw CameraException(e.message)
+            handleError(CameraException(e.message))
         }
     }
 
@@ -153,13 +155,13 @@ class CameraActivity : AppCompatActivity() {
                     }
 
                     override fun onConfigureFailed(cameraCaptureSession: CameraCaptureSession) {
-                        throw CameraException("Camera Error") // FIXME: 에러 메세지 변경
+                        handleError(CameraException())
                     }
                 },
                 null
             )
         } catch (e: CameraAccessException) {
-            throw CameraException(e.message)
+            handleError(CameraException(e.message))
         }
     }
 
@@ -167,7 +169,7 @@ class CameraActivity : AppCompatActivity() {
         try {
             cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, null)
         } catch (e: CameraAccessException) {
-            throw CameraException(e.message)
+            handleError(CameraException(e.message))
         }
     }
 
@@ -223,7 +225,7 @@ class CameraActivity : AppCompatActivity() {
                     if (cropStartX + cropWidthX > rotatedBitmap.width || cropStartY +
                         cropHeightY > rotatedBitmap.height
                     ) {
-                        throw RuntimeException()
+                        handleError(CameraException())
                     }
                     val croppedBitmap = Bitmap.createBitmap(
                         rotatedBitmap,
@@ -235,7 +237,7 @@ class CameraActivity : AppCompatActivity() {
                     CameraRepository.takenPicture = croppedBitmap
                     setResult(RESULT_CAMERA_IMAGE_RECEIVED, Intent())
                 } catch (e: RuntimeException) {
-                    throw CameraException(e.message)
+                    handleError(CameraException(e.message))
                 } finally {
                     image?.close()
                     finish()
@@ -259,12 +261,12 @@ class CameraActivity : AppCompatActivity() {
                     try {
                         session.capture(captureBuilder.build(), captureListener, null)
                     } catch (e: CameraAccessException) {
-                        throw CameraException("Camera Error") // FIXME: 에러 메세지 변경
+                        handleError(CameraException(e.message))
                     }
                 }
             }, null)
         } catch (e: CameraAccessException) {
-            throw CameraException(e.message)
+            handleError(CameraException(e.message))
         }
     }
 

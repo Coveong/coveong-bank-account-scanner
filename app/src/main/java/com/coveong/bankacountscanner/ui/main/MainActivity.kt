@@ -16,12 +16,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.coveong.bankacountscanner.R
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
 import com.coveong.bankacountscanner.error.ExternalAppNotInstalledException
+import com.coveong.bankacountscanner.error.handleError
+import com.coveong.bankacountscanner.ui.BaseActivity
 import com.coveong.bankacountscanner.ui.camera.CameraActivity
 import com.coveong.bankacountscanner.ui.camera.CameraRepository
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var progressDialog: Dialog
@@ -67,6 +69,13 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity, Observer { event ->
                     event.getExtraIfNotHandled()?.let { accountInfoString ->
                         openShareDialog(accountInfoString)
+                    }
+                }
+            )
+            onError.observe(
+                this@MainActivity, Observer { event ->
+                    event.getExtraIfNotHandled()?.let { e ->
+                        handleError(e)
                     }
                 }
             )
@@ -137,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     private fun launchExternalApp(packageNameId: Int) {
         val intent = packageManager.getLaunchIntentForPackage(getString(packageNameId))
         if (intent == null) {
-            throw ExternalAppNotInstalledException("앱이 설치되지 않았습니다.") // FIXME: 에러 메세지 변경
+            handleError(ExternalAppNotInstalledException())
         } else {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
