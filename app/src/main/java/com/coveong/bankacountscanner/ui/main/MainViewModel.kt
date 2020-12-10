@@ -77,8 +77,7 @@ class MainViewModel : ViewModel() {
             image = ImageInfo(image),
             features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1),
             imageContext = ImageContext(languageHints = listOf(
-                KOREAN_LANGUAGE,
-                ENGLISH_LANGUAGE
+                KOREAN_LANGUAGE
             ))
         )
 
@@ -101,8 +100,7 @@ class MainViewModel : ViewModel() {
 
     companion object {
         private const val GET_TEXT_FROM_IMAGE = "DOCUMENT_TEXT_DETECTION" // 이미지에서 텍스트 인식(필기체 위주)
-        private const val KOREAN_LANGUAGE = "ko"
-        private const val ENGLISH_LANGUAGE = "en"
+        private const val KOREAN_LANGUAGE = "ko-t-i0-handwrit" // 한국어 필기
     }
 
 }
