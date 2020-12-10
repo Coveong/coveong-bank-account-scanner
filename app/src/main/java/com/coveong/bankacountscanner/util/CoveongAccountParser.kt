@@ -24,11 +24,13 @@ object CoveongAccountParser {
 
     private fun changeNumberWhenSpecialCase(c: String): String {
         val specialCase0 = arrayOf("0", "o", "O")
-        val specialCase1 = arrayOf("1", "|", "l", "/")
+        val specialCase1 = arrayOf("1", "|", "l", "/", "(", ")", "I")
         val specialCase01 = arrayOf("01", "이")
+        val specialCase4 = arrayOf("4", "+")
+        val specialCase5 = arrayOf("5", "f")
         val specialCase7 = arrayOf("7", "n")
 
-        val specialCases = arrayOf(specialCase0, specialCase1, specialCase01, specialCase7)
+        val specialCases = arrayOf(specialCase0, specialCase1, specialCase01, specialCase4, specialCase5, specialCase7)
 
         for (case in specialCases) {
             for (i in 1 until case.size) {
