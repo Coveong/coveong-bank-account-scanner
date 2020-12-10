@@ -9,9 +9,6 @@ import com.coveong.bankacountscanner.remote.GoogleVisionService
 import com.coveong.bankacountscanner.util.CoveongAccountParser
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.coveong.bankacountscanner.error.CameraException
-import com.coveong.bankacountscanner.error.HttpBadResponseException
-import com.coveong.bankacountscanner.error.handleError
 import com.coveong.bankacountscanner.models.*
 import com.coveong.bankacountscanner.util.Event
 import retrofit2.*
@@ -75,9 +72,9 @@ class MainViewModel : ViewModel() {
     private fun makeRequestInfoWithImage(image: String): List<Request> {
         val requests = Request(
             image = ImageInfo(image),
-            features = Feature(type = GET_TEXT_FROM_IMAGE, maxResults = 1),
+            features = Feature(type = GET_HANDWRITING_TEXT_FROM_IMAGE, maxResults = 1),
             imageContext = ImageContext(languageHints = listOf(
-                KOREAN_LANGUAGE
+                KOREAN_HANDWRITING_LANGUAGE
             ))
         )
 
@@ -99,8 +96,8 @@ class MainViewModel : ViewModel() {
     }
 
     companion object {
-        private const val GET_TEXT_FROM_IMAGE = "DOCUMENT_TEXT_DETECTION" // 이미지에서 텍스트 인식(필기체 위주)
-        private const val KOREAN_LANGUAGE = "ko-t-i0-handwrit" // 한국어 필기
+        private const val GET_HANDWRITING_TEXT_FROM_IMAGE = "DOCUMENT_TEXT_DETECTION"
+        private const val KOREAN_HANDWRITING_LANGUAGE = "ko-t-i0-handwrit"
     }
 
 }
