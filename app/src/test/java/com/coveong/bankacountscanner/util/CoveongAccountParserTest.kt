@@ -4,11 +4,36 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class CoveongAccountParserTest {
+
     @Test
-    fun 숫자랑_비슷한_문자는_숫자로_치환한다() {
+    fun 숫자랑_비슷한_문자는_숫자로_치환한다_0() {
         assertThat(CoveongAccountParser.parseAccount("oO").account).isEqualTo("00")
+    }
+
+    @Test
+    fun 숫자랑_비슷한_문자는_숫자로_치환한다_1() {
         assertThat(CoveongAccountParser.parseAccount("|l/()I").account).isEqualTo("111111")
-        assertThat(CoveongAccountParser.parseAccount("이+fon").account).isEqualTo("014507")
+    }
+
+    @Test
+    fun 숫자랑_비슷한_문자는_숫자로_치환한다_01() {
+        assertThat(CoveongAccountParser.parseAccount("이이").account).isEqualTo("0101")
+    }
+
+    @Test
+    fun 숫자랑_비슷한_문자는_숫자로_치환한다_4() {
+        assertThat(CoveongAccountParser.parseAccount("+").account).isEqualTo("4")
+    }
+
+    @Test
+    fun 숫자랑_비슷한_문자는_숫자로_치환한다_5() {
+        assertThat(CoveongAccountParser.parseAccount("f").account).isEqualTo("5")
+    }
+
+
+    @Test
+    fun 숫자랑_비슷한_문자는_숫자로_치환한다_7() {
+        assertThat(CoveongAccountParser.parseAccount("n").account).isEqualTo("7")
     }
 
     @Test
