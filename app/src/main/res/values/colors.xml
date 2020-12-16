@@ -6,12 +6,13 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorMain">#FF6D63</color>
     <color name="colorMain_pressed">#C85851</color>
-    <color name="colorMainLight">#EFF4FE</color>
-    <color name="colorMainLight_pressed">#FEF0EF</color>
+    <color name="colorMainLight">#FEF0EF</color>
+    <color name="colorMainLight_pressed">#EAD8D6</color>
     <color name="colorMainDark">#9F3A34</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorDecentRed">#ED5151</color>
-    <color name="colorBlack">#44475A</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGreyDark">#454545</color>
     <color name="colorGrey">#90919C</color>
     <color name="colorGreyLight">#C7C8CF</color>
     <color name="colorGreySemiTransparent">#54202020</color>
