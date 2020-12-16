@@ -8,18 +8,21 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.coveong.bankacountscanner.R
 import com.coveong.bankacountscanner.databinding.ActivityMainBinding
+import com.coveong.bankacountscanner.databinding.DialogAlertBeforeStartBinding
 import com.coveong.bankacountscanner.error.ExternalAppNotInstalledException
 import com.coveong.bankacountscanner.error.handleError
 import com.coveong.bankacountscanner.ui.BaseActivity
 import com.coveong.bankacountscanner.ui.camera.CameraActivity
 import com.coveong.bankacountscanner.ui.camera.CameraRepository
+import com.coveong.bankacountscanner.util.Preferences
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -27,16 +30,29 @@ class MainActivity : BaseActivity() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var progressDialog: Dialog
+    private lateinit var alertBeforeStartDialog: Dialog
+
+    private val preferences by lazy { Preferences(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestPreviewImage()
+        requestPreviewImageAfterShowingDialogIfNeeded()
         setContentView(R.layout.activity_main)
         initializeMainViewModel()
         settingContentView()
         initializeViewListener()
         initializeProgressDialog()
+    }
+
+    private fun requestPreviewImageAfterShowingDialogIfNeeded() {
+        val showDialogNeeded = !preferences.alertBeforeStartDialogShowed
+        if (showDialogNeeded) {
+            initializeAlertBeforeStartDialog()
+            showAlertBeforeStartDialog()
+        } else {
+            requestPreviewImage()
+        }
     }
 
     private fun requestPreviewImage() {
@@ -107,6 +123,31 @@ class MainActivity : BaseActivity() {
         progressDialog = Dialog(this).apply {
             setContentView(R.layout.dialog_progress)
             setCancelable(false)
+        }
+    }
+
+    private fun initializeAlertBeforeStartDialog() {
+        alertBeforeStartDialog = Dialog(this).apply {
+            val binding = DataBindingUtil.inflate<DialogAlertBeforeStartBinding>(
+                LayoutInflater.from(context), R.layout. dialog_alert_before_start, null, false
+            ).also {
+                it.confirmButton.setOnClickListener {
+                    preferences.alertBeforeStartDialogShowed = true
+                    dismiss()
+                    requestPreviewImage()
+                }
+            }
+            setContentView(binding.root)
+            setCancelable(false)
+        }
+    }
+
+    private fun showAlertBeforeStartDialog() {
+        alertBeforeStartDialog.run {
+            show()
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         }
     }
 
