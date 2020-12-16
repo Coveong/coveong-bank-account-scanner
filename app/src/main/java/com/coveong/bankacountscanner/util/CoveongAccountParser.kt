@@ -1,9 +1,14 @@
 package com.coveong.bankacountscanner.util
 
 import com.coveong.bankacountscanner.models.AccountInfo
-import java.lang.Character.isDigit
 
 object CoveongAccountParser {
+
+    private val allBanks = arrayOf(
+        "국민", "카카오", "신한", "농협", "기업", "우리", "하나", "새마을",
+        "수협", "우체국", "제일", "부산", "경남", "광주", "대구", "저축",
+        "씨티", "신협", "전북", "제주", "산업", "케이", "도이치"
+    )
 
     // FIXME: 로직 변경 필요!
     fun parseAccount(account: String): AccountInfo {
@@ -22,7 +27,7 @@ object CoveongAccountParser {
         return result.joinToString("")
     }
 
-    private fun changeNumberWhenSpecialCase(c: String): String {
+    private fun changeNumberWhenSpecialCase(ch: String): String {
         val specialCase0 = arrayOf("0", "o", "O")
         val specialCase1 = arrayOf("1", "|", "l", "/", "(", ")", "I")
         val specialCase01 = arrayOf("01", "이")
@@ -34,26 +39,42 @@ object CoveongAccountParser {
 
         for (case in specialCases) {
             for (i in 1 until case.size) {
-                if (c == case[i]) {
+                if (ch == case[i]) {
                     return case[0]
                 }
             }
         }
         
-        return c
+        return ch
     }
 
     private fun getBankNameByAccount(account: String): String {
-        val allBanks = arrayOf(
-            "국민", "카카오", "기업", "농협", "신한", "산업", "우리", "씨티",
-            "하나", "제일", "경남", "광주", "대구", "도이치", "부산", "저축",
-            "새마을", "수협", "신협", "우체국", "전북", "제주", "케이"
-        )
         for (bank in allBanks) {
             if (account.contains(bank)) {
                 return bank
             }
         }
+
+        return getSimilarBankNameByAccount(account)
+    }
+
+    private fun getSimilarBankNameByAccount(account: String): String {
+        for (ch in extractKorean(account)) {
+            for (bank in allBanks) {
+                if (bank.contains(ch)) {
+                    return bank
+                }
+            }
+        }
+
         return ""
+    }
+
+
+    private fun extractKorean(account: String): String {
+        val koreanRegex = "[ㄱ-ㅎ가-힣]+".toRegex()
+        val result = koreanRegex.find(account)
+
+        return result?.value ?: ""
     }
 }
