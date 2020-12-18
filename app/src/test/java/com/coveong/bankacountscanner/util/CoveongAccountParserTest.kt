@@ -51,9 +51,9 @@ class CoveongAccountParserTest {
     }
 
     @Test
-    fun 은행이름중_한글자만_인식되어도_전체로_치환한다() { // TODO: 기능 구현 전
-        assertThat(CoveongAccountParser.parseAccount("농").bankName).isEqualTo("농협")
-        assertThat(CoveongAccountParser.parseAccount("새").bankName).isEqualTo("새마을")
+    fun 은행이름중_한글자만_인식되어도_전체로_치환한다() {
+        assertThat(CoveongAccountParser.parseAccount("농1").bankName).isEqualTo("농협")
+        assertThat(CoveongAccountParser.parseAccount("1새22홍길동").bankName).isEqualTo("새마을")
         assertThat(CoveongAccountParser.parseAccount("카오").bankName).isEqualTo("카카오")
     }
 }
