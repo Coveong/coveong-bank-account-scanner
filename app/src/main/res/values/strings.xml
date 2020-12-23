@@ -21,4 +21,8 @@
     <string name="error_camera_exception">카메라 정보를 불러오는 중 문제가 발생했습니다.</string>
     <string name="error_external_app_not_installed_exception">해당 앱이 설치되지 않았습니다.</string>
     <string name="error_http_bad_response_exception">서버 요청이 실패했습니다.</string>
+    <string name="dialog_alert_before_start_title">시작하기에 앞서...</string>
+    <string name="dialog_alert_before_start_content1">인식된 계좌는 실제 계좌와 상이할 수 있습니다.</string>
+    <string name="dialog_alert_before_start_content2">바르게 쓴 글씨일수록 인식률이 높아집니다.</string>
+    <string name="dialog_alert_before_start_confirm">확인</string>
 </resources>
