@@ -31,8 +31,8 @@ android {
         applicationId "com.coveong.bankacountscanner"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
 
         buildConfigField "String", "GOOGLE_VISION_API_KEY", "\"${getProperty("secure.properties", "GOOGLE_VISION_API_KEY")}\""
         buildConfigField "String", "GOOGLE_VISION_BASE_URL", '"https://vision.googleapis.com/"'
