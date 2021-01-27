@@ -104,9 +104,30 @@ class CameraActivity : BaseActivity() {
         showOnboardingDialogIfNeeded()
     }
 
-    private fun initializeView() {
-        camera_preview.surfaceTextureListener = surfaceTextureListener
-        camera_take_picture_button.setOnClickListener { takePicture() }
+    override fun onResume() {
+        super.onResume()
+        if (camera_preview.isAvailable) {
+            openCamera()
+        } else {
+            initializeView()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        cameraDevice?.close()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                showPermissionNotCheckedToastAndFinish()
+            }
+        }
     }
 
     fun openCamera() {
@@ -125,6 +146,11 @@ class CameraActivity : BaseActivity() {
         } catch (e: CameraAccessException) {
             handleError(CameraException(e.message))
         }
+    }
+
+    private fun initializeView() {
+        camera_preview.surfaceTextureListener = surfaceTextureListener
+        camera_take_picture_button.setOnClickListener { takePicture() }
     }
 
     private fun setUpCameraOutputs() {
@@ -276,18 +302,6 @@ class CameraActivity : BaseActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                showPermissionNotCheckedToastAndFinish()
-            }
-        }
-    }
-
     private fun showPermissionNotCheckedToastAndFinish() {
         Toast.makeText(
             this,
@@ -295,20 +309,6 @@ class CameraActivity : BaseActivity() {
             Toast.LENGTH_LONG
         ).show()
         finish()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (camera_preview.isAvailable) {
-            openCamera()
-        } else {
-            initializeView()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        cameraDevice?.close()
     }
 
     private fun showOnboardingDialogIfNeeded() {
