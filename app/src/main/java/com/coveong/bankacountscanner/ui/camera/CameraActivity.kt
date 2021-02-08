@@ -1,6 +1,7 @@
 package com.coveong.bankacountscanner.ui.camera
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,15 +13,20 @@ import android.media.ImageReader
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
+import android.view.LayoutInflater
 import android.view.Surface
 import android.view.TextureView
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.databinding.DataBindingUtil
 import com.coveong.bankacountscanner.R
+import com.coveong.bankacountscanner.databinding.DialogOnboardingGuideBinding
 import com.coveong.bankacountscanner.error.CameraException
 import com.coveong.bankacountscanner.error.handleError
 import com.coveong.bankacountscanner.ui.BaseActivity
+import com.coveong.bankacountscanner.util.Preferences
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.FileOutputStream
 import java.io.IOException
@@ -36,6 +42,10 @@ class CameraActivity : BaseActivity() {
     private lateinit var previewSize: Size
     private lateinit var cameraCaptureSession: CameraCaptureSession
     private lateinit var captureRequestBuilder: CaptureRequest.Builder
+
+    private lateinit var onboardingGuideDialog: Dialog
+
+    private val preferences by lazy { Preferences(this) }  // FIXME: DI 적용
 
     private val manager by lazy { getSystemService(Context.CAMERA_SERVICE) as CameraManager }
     private val characteristics by lazy { manager.getCameraCharacteristics(manager.cameraIdList[0]) }
@@ -91,11 +101,33 @@ class CameraActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
+        showOnboardingDialogIfNeeded()
     }
 
-    private fun initializeView() {
-        camera_preview.surfaceTextureListener = surfaceTextureListener
-        camera_take_picture_button.setOnClickListener { takePicture() }
+    override fun onResume() {
+        super.onResume()
+        if (camera_preview.isAvailable) {
+            openCamera()
+        } else {
+            initializeView()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        cameraDevice?.close()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                showPermissionNotCheckedToastAndFinish()
+            }
+        }
     }
 
     fun openCamera() {
@@ -114,6 +146,11 @@ class CameraActivity : BaseActivity() {
         } catch (e: CameraAccessException) {
             handleError(CameraException(e.message))
         }
+    }
+
+    private fun initializeView() {
+        camera_preview.surfaceTextureListener = surfaceTextureListener
+        camera_take_picture_button.setOnClickListener { takePicture() }
     }
 
     private fun setUpCameraOutputs() {
@@ -265,18 +302,6 @@ class CameraActivity : BaseActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                showPermissionNotCheckedToastAndFinish()
-            }
-        }
-    }
-
     private fun showPermissionNotCheckedToastAndFinish() {
         Toast.makeText(
             this,
@@ -286,18 +311,38 @@ class CameraActivity : BaseActivity() {
         finish()
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (camera_preview.isAvailable) {
-            openCamera()
-        } else {
-            initializeView()
+    private fun showOnboardingDialogIfNeeded() {
+        val shouldShowDialog = !preferences.onboardingGuideDialogShowed
+        if (shouldShowDialog) {
+            initializeOnboardingDialog()
+            showOnboardingDialog()
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        cameraDevice?.close()
+    private fun initializeOnboardingDialog() {
+        onboardingGuideDialog = Dialog(this).apply {
+            val binding = DataBindingUtil
+                .inflate<DialogOnboardingGuideBinding>(
+                    LayoutInflater.from(context), R.layout. dialog_onboarding_guide, null, false
+                ).also {
+                    it.confirmButton.setOnClickListener {
+                        preferences.onboardingGuideDialogShowed = true
+                        dismiss()
+                    }
+                }
+            setContentView(binding.root)
+            setCancelable(false)
+        }
+    }
+
+    private fun showOnboardingDialog() {
+        onboardingGuideDialog.run {
+            show()
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
     }
 
     companion object {

@@ -32,7 +32,7 @@ class MainActivity : BaseActivity() {
     private lateinit var progressDialog: Dialog
     private lateinit var alertBeforeStartDialog: Dialog
 
-    private val preferences by lazy { Preferences(this) }
+    private val preferences by lazy { Preferences(this) }  // FIXME: DI 적용
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

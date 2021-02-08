@@ -25,4 +25,8 @@
     <string name="dialog_alert_before_start_content1">인식된 계좌는 실제 계좌와 상이할 수 있습니다.</string>
     <string name="dialog_alert_before_start_content2">바르게 쓴 글씨일수록 인식률이 높아집니다.</string>
     <string name="dialog_alert_before_start_confirm">확인</string>
+    <string name="dialog_onboarding_guide_title">사진 촬영 가이드</string>
+    <string name="dialog_onboarding_guide_content1">반드시 틀 안에 계좌번호/은행명만</string>
+    <string name="dialog_onboarding_guide_content2">포함되도록 촬영해주세요!</string>
+    <string name="dialog_onboarding_guide_confirm">이해했습니다!</string>
 </resources>
