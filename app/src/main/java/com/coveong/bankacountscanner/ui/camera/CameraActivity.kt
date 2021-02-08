@@ -312,8 +312,8 @@ class CameraActivity : BaseActivity() {
     }
 
     private fun showOnboardingDialogIfNeeded() {
-        val showDialogNeeded = !preferences.onboardingGuideDialogShowed
-        if (showDialogNeeded) {
+        val shouldShowDialog = !preferences.onboardingGuideDialogShowed
+        if (shouldShowDialog) {
             initializeOnboardingDialog()
             showOnboardingDialog()
         }
